@@ -219,6 +219,9 @@ rebuild_firmware() {
         \
         luci-app-amlogic luci-i18n-amlogic-zh-cn \
         \
+        openssh-sftp-server \
+        kmod-tun kmod-nft-tproxy kmod-nft-fib kmod-inet-diag \
+        \
         ${config_list} \
         "
 
