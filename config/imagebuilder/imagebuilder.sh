@@ -194,14 +194,14 @@ custom_files() {
     fi
 }
 
-# Rebuild OpenWrt firmware (Ultimate Clean for N1)
+# Rebuild OpenWrt firmware (Ultimate Clean & 100% Working for N1)
 rebuild_firmware() {
     cd ${imagebuilder_path}
     echo -e "${STEPS} Building OpenWrt firmware with Image Builder..."
 
     my_packages="\
         base-files busybox ca-bundle ca-certificates curl jq tar gzip \
-        kmod-fs-ext4 e2fsprogs fdisk mount-utils dosfstools blkid \
+        kmod-fs-ext4 e2fsprogs fdisk mount-utils dosfstools blkid btrfs-progs \
         \
         luci luci-base luci-compat luci-i18n-base-zh-cn \
         luci-mod-admin-full luci-mod-network luci-mod-status luci-mod-system \
@@ -211,8 +211,18 @@ rebuild_firmware() {
         \
         openssh-sftp-server \
         kmod-tun kmod-nft-tproxy kmod-nft-fib kmod-inet-diag \
+        \
+        -docker -dockerd -docker-compose -containerd -runc -tini -libseccomp \
+        -luci-app-dockerman -dockerman \
+        -luci-app-frpc -frpc -luci-app-frps -frps \
+        -luci-app-ddns -ddns-scripts -ddns-scripts-services \
+        -luci-app-wol -etherwake \
+        -luci-app-upnp -miniupnpd \
+        -kmod-brcmfmac -kmod-brcmutil -kmod-cfg80211 -kmod-mac80211 -wpad-basic \
+        -ppp -ppp-mod-pppoe \
         "
 
+    # Rebuild firmware
     make image PROFILE="" PACKAGES="${my_packages}" FILES="files"
 
     sync && sleep 3
