@@ -194,11 +194,11 @@ custom_files() {
     fi
 }
 
-# Rebuild OpenWrt firmware (Extreme Minimal for N1 - Fixed & Usable)
+# Rebuild OpenWrt firmware (Ultra Clean for N1)
 rebuild_firmware() {
     cd ${imagebuilder_path}
     echo -e "${STEPS} Building OpenWrt firmware with Image Builder..."
-    
+
     my_packages="\
         base-files busybox ca-bundle ca-certificates curl jq tar gzip \
         kmod-fs-ext4 e2fsprogs fdisk mount-utils dosfstools blkid \
@@ -211,6 +211,12 @@ rebuild_firmware() {
         \
         openssh-sftp-server \
         kmod-tun kmod-nft-tproxy kmod-nft-fib kmod-inet-diag \
+        \
+        -luci-app-dockerman -dockerman -docker -dockerd -docker-compose -containerd -runc -tini -libseccomp \
+        -luci-app-frpc -frpc -luci-app-frps -frps \
+        -luci-app-ddns -ddns-scripts -ddns-scripts-services \
+        -luci-app-wol -etherwake \
+        -luci-app-upnp -miniupnpd \
         \
         ${config_list} \
         "
